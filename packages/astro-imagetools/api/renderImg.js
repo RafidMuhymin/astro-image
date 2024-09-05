@@ -74,22 +74,25 @@ export default async function renderImg(props) {
   const layoutStyles = getLayoutStyles({ layout });
 
   const sources = images.flatMap(({ sources, sizes, imagesizes }) =>
-    sources.map(({ src, srcset }) =>
-      getImgElement({
-        src,
-        alt,
-        sizes,
-        style,
-        srcset,
-        loading,
-        decoding,
-        imagesizes,
-        fadeInTransition,
-        layoutStyles,
-        imgAttributes,
-        imgClassName: className,
-      })
-    )
+    {
+      return sources.map(({ src, format, srcset }) => {
+        src = src + '.' + format;
+        return getImgElement({
+          src,
+          alt,
+          sizes,
+          style,
+          srcset,
+          loading,
+          decoding,
+          imagesizes,
+          fadeInTransition,
+          layoutStyles,
+          imgAttributes,
+          imgClassName: className,
+        })
+      });
+    }
   );
 
   const [img] = sources;
